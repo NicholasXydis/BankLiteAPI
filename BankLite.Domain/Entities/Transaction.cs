@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankLite.Domain.Entities
 {
-    public enum TransactionType { Deposit, Withdrawal, Transfer}
+    public enum TransactionType { Deposit, Withdrawal, Transfer }
 
     public class Transaction
     {

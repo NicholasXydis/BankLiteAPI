@@ -8,7 +8,7 @@ namespace BankLite.Domain.Interfaces
 {
     public interface ITransactionRepository
     {
-        Task <IEnumerable<Transaction>> GetByAccountIdAsync (Guid accountId);
-        Task AddAsync (Transaction transaction);
+        Task<IEnumerable<Transaction>> GetByAccountIdAsync(Guid accountId);
+        Task AddAsync(Transaction transaction);
     }
 }
