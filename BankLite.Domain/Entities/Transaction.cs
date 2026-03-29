@@ -15,7 +15,7 @@ namespace BankLite.Domain.Entities
         public Account Account { get; set; }
         public TransactionType Type { get; set; }
         public decimal Amount { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

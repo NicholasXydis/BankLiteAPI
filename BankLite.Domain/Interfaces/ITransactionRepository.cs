@@ -1,4 +1,5 @@
 ﻿using System;
+using BankLite.Domain.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

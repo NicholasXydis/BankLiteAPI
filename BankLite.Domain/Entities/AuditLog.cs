@@ -10,8 +10,8 @@ namespace BankLite.Domain.Entities
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public string Action { get; set; }
-        public string Details { get; set; }
+        public required string Action { get; set; }
+        public required string Details { get; set; }
         public DateTime PerformedAt { get; set; } = DateTime.UtcNow;
     }
 }
