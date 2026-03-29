@@ -14,4 +14,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\BankLite.Infrastructure\BankLite.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
