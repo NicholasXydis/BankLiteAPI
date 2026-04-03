@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BankLite.Application\BankLite.Application.csproj" />
     <ProjectReference Include="..\..\BankLite.Infrastructure\BankLite.Infrastructure.csproj" />
   </ItemGroup>
 
