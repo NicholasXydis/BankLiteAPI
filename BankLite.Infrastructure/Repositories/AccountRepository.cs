@@ -2,11 +2,6 @@
 using BankLite.Domain.Interfaces;
 using BankLite.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankLite.Infrastructure.Repositories
 {
@@ -38,8 +33,6 @@ namespace BankLite.Infrastructure.Repositories
         public async Task UpdateAsync(Account account)
         {
             _context.Accounts.Update(account);
-            // TODO: Remove SaveChangesAsync from repo - will be handeled by service layer for atomic transfers
-            await _context.SaveChangesAsync();
         }
     }
 }

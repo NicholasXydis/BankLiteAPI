@@ -1,15 +1,11 @@
-﻿using System;
-using BankLite.Domain.Entities;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BankLite.Domain.Entities;
 
 namespace BankLite.Domain.Interfaces
 {
     public interface ITransactionRepository
     {
-        Task<IEnumerable<Transaction>> GetByAccountIdAsync(Guid accountId);
+        Task<IEnumerable<Transaction>> GetByAccountIdAsync(Guid accountId, int page, int pageSize);
+        Task<int> GetTotalCountAsync(Guid accountId);
         Task AddAsync(Transaction transaction);
     }
 }

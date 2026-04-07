@@ -2,11 +2,6 @@
 using BankLite.Domain.Interfaces;
 using BankLite.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankLite.Infrastructure.Repositories
 {
@@ -19,16 +14,25 @@ namespace BankLite.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Transaction>> GetByAccountIdAsync(Guid accountId)
-        {
-            return await _context.Transactions.Where(t => t.AccountId == accountId).ToListAsync();
-        }
-
         public async Task AddAsync(Transaction transaction)
         {
             await _context.Transactions.AddAsync(transaction);
-            // TODO: Remove SaveChangesAsync from repo - will be handeled by service layer for atomic transfers
-            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Transaction>> GetByAccountIdAsync(Guid accountId, int page, int pageSize)
+        {
+            return await _context.Transactions 
+            .Where(t => t.AccountId == accountId)
+            .Skip((page -1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        }
+
+        public async Task<int> GetTotalCountAsync(Guid accountId)
+        {
+            return await _context.Transactions
+            .Where (t => t.AccountId == accountId)
+            .CountAsync();
         }
     }
 }

@@ -8,6 +8,6 @@ namespace BankLite.Application.Interfaces
         Task DepositAsync(DepositWithdrawDto dto);
         Task WithdrawAsync(DepositWithdrawDto dto);
         Task TransferAsync(TransferDto dto);
-        Task<IEnumerable<Transaction>> GetTransactionsByAccountIdAsync(Guid accountId);
+        Task<PagedResultDto<Transaction>> GetTransactionsByAccountIdAsync(Guid accountId,int page, int pageSize);
     }
 }
