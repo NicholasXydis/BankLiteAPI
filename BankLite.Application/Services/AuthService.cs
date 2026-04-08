@@ -17,11 +17,13 @@ namespace BankLite.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
+        private readonly IAuditLogRepository _auditLogRepository;
 
-        public AuthService(IUserRepository userRepository, IConfiguration configuration)
+        public AuthService(IUserRepository userRepository, IConfiguration configuration, IAuditLogRepository auditLogRepository)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _auditLogRepository = auditLogRepository;
         }
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterUserDto dto)
@@ -39,6 +41,13 @@ namespace BankLite.Application.Services
             };
             await _userRepository.AddAsync(user);
 
+            await _auditLogRepository.LogAsync(new AuditLog
+            {
+                Action = "Register",
+                Details = $"User {user.Email} registered",
+                PerformedAt = DateTime.UtcNow,
+            });
+
             var token = GenerateToken(user);
             return new AuthResponseDto
             {
@@ -54,6 +63,13 @@ namespace BankLite.Application.Services
 
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                 throw new Exception("Invalid Credentials");
+
+            await _auditLogRepository.LogAsync(new AuditLog
+            {
+                Action = "Login",
+                Details = $"User {user.Email} logged in",
+                PerformedAt = DateTime.UtcNow,
+            });
 
             var token = GenerateToken(user);
             return new AuthResponseDto

@@ -2,7 +2,6 @@
 using BankLite.Application.Interfaces;
 using BankLite.Domain.Entities;
 using BankLite.Domain.Interfaces;
-using System.Security.Principal;
 
 namespace BankLite.Application.Services
 {
@@ -11,12 +10,14 @@ namespace BankLite.Application.Services
         private readonly IAccountRepository _accountRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAuditLogRepository _auditLogRepository;
 
-        public TransactionService(IAccountRepository accountRepository, ITransactionRepository transactionRepository, IUnitOfWork unitOfWork)
+        public TransactionService(IAccountRepository accountRepository, ITransactionRepository transactionRepository, IUnitOfWork unitOfWork, IAuditLogRepository auditLogRepository)
         {
             _accountRepository = accountRepository;
             _transactionRepository = transactionRepository;
             _unitOfWork = unitOfWork;
+            _auditLogRepository = auditLogRepository;
         }
 
         public async Task DepositAsync(DepositWithdrawDto dto)
@@ -35,6 +36,13 @@ namespace BankLite.Application.Services
             await _transactionRepository.AddAsync(transaction);
             await _accountRepository.UpdateAsync(account);
             await _unitOfWork.SaveAsync();
+
+            await _auditLogRepository.LogAsync(new AuditLog
+            {
+                Action = "Deposit",
+                Details = $"Deposited {dto.Amount} to account {dto.AccountId}",
+                PerformedAt = DateTime.UtcNow,
+            });
 
         }
 
@@ -55,6 +63,13 @@ namespace BankLite.Application.Services
             await _transactionRepository.AddAsync(transaction);
             await _accountRepository.UpdateAsync(account);
             await _unitOfWork.SaveAsync();
+
+            await _auditLogRepository.LogAsync(new AuditLog
+            {
+                Action = "Withdrawal",
+                Details = $"Withdrew {dto.Amount} from account {dto.AccountId}",
+                PerformedAt = DateTime.UtcNow,
+            });
         }
 
         public async Task TransferAsync(TransferDto dto)
@@ -91,6 +106,13 @@ namespace BankLite.Application.Services
                 await _transactionRepository.AddAsync(creditTransaction);
 
                 await _unitOfWork.CommitAsync();
+
+                await _auditLogRepository.LogAsync(new AuditLog
+                {
+                    Action = "Transfer",
+                    Details = $"Transferred {dto.Amount} from account {dto.FromAccountId} to account {dto.ToAccountId}",
+                    PerformedAt = DateTime.UtcNow,
+                });
             }
 
             catch
