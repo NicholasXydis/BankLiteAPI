@@ -1,5 +1,6 @@
 ﻿using BankLite.Application.DTOs;
 using BankLite.Application.Interfaces;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankLite.API.Controllers
@@ -10,15 +11,23 @@ namespace BankLite.API.Controllers
         public class AuthController : ControllerBase
         {
             private readonly IAuthService _authService;
+            private readonly IValidator<RegisterUserDto> _registerValidator;
+            private readonly IValidator<LoginUserDto> _loginValidator;
 
-            public AuthController(IAuthService authService)
+            public AuthController(IAuthService authService, IValidator<RegisterUserDto> registerValidator, IValidator<LoginUserDto> loginValidator)
         {
             _authService = authService; 
+            _registerValidator = registerValidator;
+            _loginValidator = loginValidator;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDto dto)
         {
+            var validation = await _registerValidator.ValidateAsync(dto);
+            if (!validation.IsValid)
+                return BadRequest(validation.Errors);
+
             var result = await _authService.RegisterAsync(dto);
             return Ok(result);
         }
@@ -26,6 +35,10 @@ namespace BankLite.API.Controllers
         [HttpPost("login")]
             public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
         {
+            var validation = await _loginValidator.ValidateAsync(dto);
+            if (!validation.IsValid)
+                return BadRequest(validation.Errors);
+
             var result = await _authService.LoginAsync(dto);
             return Ok(result);
         }

@@ -1,5 +1,6 @@
 ﻿using BankLite.Application.DTOs;
 using BankLite.Application.Interfaces;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,15 +12,24 @@ namespace BankLite.API.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
+        private readonly IValidator<DepositWithdrawDto> _depositwithdrawValidator;
+        private readonly IValidator<TransferDto> _transferValidator;
 
-        public TransactionController(ITransactionService transactionService)
+
+        public TransactionController(ITransactionService transactionService, IValidator<DepositWithdrawDto> depositwithdrawValidator, IValidator<TransferDto> transferValidator)
         {
             _transactionService = transactionService;
+            _depositwithdrawValidator = depositwithdrawValidator;
+            _transferValidator = transferValidator;
         }
 
         [HttpPost("deposit")]
         public async Task<IActionResult> Deposit([FromBody] DepositWithdrawDto dto)
         {
+            var validation = await _depositwithdrawValidator.ValidateAsync(dto);
+            if (!validation.IsValid)
+                return BadRequest(validation.Errors);
+
             await _transactionService.DepositAsync(dto);
             return Ok();
         }
@@ -27,6 +37,10 @@ namespace BankLite.API.Controllers
         [HttpPost("withdraw")]
         public async Task<IActionResult> Withdraw([FromBody] DepositWithdrawDto dto)
         {
+            var validation = await _depositwithdrawValidator.ValidateAsync(dto);
+            if (!validation.IsValid)
+                return BadRequest(validation.Errors);
+
             await _transactionService.WithdrawAsync(dto);
             return Ok();
         }
@@ -34,6 +48,10 @@ namespace BankLite.API.Controllers
         [HttpPost("transfer")]
         public async Task<IActionResult> Transfer([FromBody] TransferDto dto)
         {
+            var validation = await _transferValidator.ValidateAsync(dto);
+            if (!validation.IsValid)
+                return BadRequest(validation.Errors);
+
             await _transactionService.TransferAsync(dto);
             return Ok();
         }

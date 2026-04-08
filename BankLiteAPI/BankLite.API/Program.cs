@@ -11,6 +11,9 @@ using System.Text;
 using BankLite.API.Middleware;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
+using FluentValidation;
+using BankLite.Application.Validators;
+using BankLite.Application.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +58,11 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IValidator<CreateAccountDto>, CreateAccountValidator>();
+builder.Services.AddScoped<IValidator<LoginUserDto>, LoginUserValidator>();
+builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
+builder.Services.AddScoped<IValidator<DepositWithdrawDto>, DepositWithdrawValidator>();
+builder.Services.AddScoped<IValidator<TransferDto>, TransferValidator>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
