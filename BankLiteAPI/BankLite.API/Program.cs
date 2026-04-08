@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using BankLite.API.Middleware;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,6 +82,18 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("fixed", config =>
+    {
+        config.PermitLimit = 30;
+        config.Window = TimeSpan.FromMinutes(1);
+        config.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        config.QueueLimit = 5;
+    });
+    options.RejectionStatusCode = 429;
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -91,6 +105,8 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors("AllowFrontend");
+
+app.UseRateLimiter();
 
 app.UseHttpsRedirection();
 
