@@ -5,5 +5,6 @@
         Task BeginTransactionAsync();
         Task CommitAsync();
         Task RollbackAsync();
+        Task SaveAsync();
     }
 }

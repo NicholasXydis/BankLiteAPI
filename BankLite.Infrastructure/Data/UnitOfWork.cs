@@ -27,6 +27,10 @@ namespace BankLite.Infrastructure.Data
             await _context.Database.RollbackTransactionAsync();
         }
 
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 
 }

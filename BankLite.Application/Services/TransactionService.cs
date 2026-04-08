@@ -34,6 +34,7 @@ namespace BankLite.Application.Services
 
             await _transactionRepository.AddAsync(transaction);
             await _accountRepository.UpdateAsync(account);
+            await _unitOfWork.SaveAsync();
 
         }
 
@@ -53,6 +54,7 @@ namespace BankLite.Application.Services
 
             await _transactionRepository.AddAsync(transaction);
             await _accountRepository.UpdateAsync(account);
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task TransferAsync(TransferDto dto)
