@@ -59,10 +59,10 @@ namespace BankLite.Application.Services
         {
             var user = await _userRepository.GetByEmailAsync(dto.Email);
             if (user == null)
-                throw new Exception("Invalid Credentials");
+                throw new InvalidOperationException("Invalid Credentials");
 
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
-                throw new Exception("Invalid Credentials");
+                throw new InvalidOperationException("Invalid Credentials");
 
             await _auditLogRepository.LogAsync(new AuditLog
             {
