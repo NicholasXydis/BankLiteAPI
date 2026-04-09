@@ -3,9 +3,11 @@ using BankLite.Application.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BankLite.API.Controllers
 {
+    [EnableRateLimiting("fixed")]
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]

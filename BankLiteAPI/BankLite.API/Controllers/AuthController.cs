@@ -2,6 +2,7 @@
 using BankLite.Application.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace BankLite.API.Controllers
 {
@@ -21,6 +22,7 @@ namespace BankLite.API.Controllers
             _loginValidator = loginValidator;
         }
 
+        [EnableRateLimiting("fixed")]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDto dto)
         {
@@ -32,6 +34,7 @@ namespace BankLite.API.Controllers
             return Ok(result);
         }
 
+        [EnableRateLimiting("login")]
         [HttpPost("login")]
             public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
         {
