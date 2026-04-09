@@ -21,9 +21,9 @@ namespace BankLite.Infrastructure.Repositories
 
         public async Task<IEnumerable<Transaction>> GetByAccountIdAsync(Guid accountId, int page, int pageSize)
         {
-            return await _context.Transactions 
+            return await _context.Transactions
             .Where(t => t.AccountId == accountId)
-            .Skip((page -1) * pageSize)
+            .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
         }
@@ -31,7 +31,7 @@ namespace BankLite.Infrastructure.Repositories
         public async Task<int> GetTotalCountAsync(Guid accountId)
         {
             return await _context.Transactions
-            .Where (t => t.AccountId == accountId)
+            .Where(t => t.AccountId == accountId)
             .CountAsync();
         }
     }
