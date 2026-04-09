@@ -10,6 +10,10 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: BankLiteAPI
+
     steps:
       - uses: actions/checkout@v3
 
