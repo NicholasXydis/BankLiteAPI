@@ -31,6 +31,7 @@ namespace BankLite.Application.Services
                 AccountId = dto.AccountId,
                 Amount = dto.Amount,
                 Type = TransactionType.Deposit,
+                Description = $"Deposit of {dto.Amount}"
             };
 
             await _transactionRepository.AddAsync(transaction);
@@ -58,6 +59,7 @@ namespace BankLite.Application.Services
                 AccountId = dto.AccountId,
                 Amount = dto.Amount,
                 Type = TransactionType.Withdrawal,
+                Description = $"Withdrawal of {dto.Amount}"
             };
 
             await _transactionRepository.AddAsync(transaction);
@@ -93,6 +95,7 @@ namespace BankLite.Application.Services
                     AccountId = dto.FromAccountId,
                     Amount = dto.Amount,
                     Type = TransactionType.Withdrawal,
+                    Description = $"Transfer to account {dto.ToAccountId}"
                 };
 
                 var creditTransaction = new Transaction
@@ -100,6 +103,7 @@ namespace BankLite.Application.Services
                     AccountId = dto.ToAccountId,
                     Amount = dto.Amount,
                     Type = TransactionType.Deposit,
+                    Description = $"Transfer from account {dto.FromAccountId}"
                 };
 
                 await _transactionRepository.AddAsync(debitTransaction);

@@ -7,9 +7,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using System.Net.WebSockets;
-using System.Reflection.Metadata.Ecma335;
-
 
 namespace BankLite.Application.Services
 {

@@ -1,5 +1,4 @@
 ﻿using BankLite.Application.DTOs;
-using System.Threading.Tasks;
 
 namespace BankLite.Application.Interfaces
 {

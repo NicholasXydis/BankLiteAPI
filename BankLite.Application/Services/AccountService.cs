@@ -11,7 +11,7 @@ namespace BankLite.Application.Services
 
         public AccountService(IAccountRepository accountRepository)
         {
-            _accountRepository = accountRepository; 
+            _accountRepository = accountRepository;
         }
 
         public async Task<Account> CreateAccountAsync(CreateAccountDto dto, Guid userId)
