@@ -23,7 +23,7 @@ namespace BankLite.Application.Services
         public async Task DepositAsync(DepositWithdrawDto dto)
         {
             var account = await _accountRepository.GetByIdAsync(dto.AccountId);
-            if (account == null) throw new Exception("No Account Found");
+            if (account == null) throw new InvalidOperationException("No Account Found");
             account.Balance += dto.Amount;
 
             var transaction = new Transaction
@@ -49,8 +49,8 @@ namespace BankLite.Application.Services
         public async Task WithdrawAsync(DepositWithdrawDto dto)
         {
             var account = await _accountRepository.GetByIdAsync(dto.AccountId);
-            if (account == null) throw new Exception("No Account Found");
-            if (dto.Amount > account.Balance) throw new Exception("Insufficient Funds");
+            if (account == null) throw new InvalidOperationException("No Account Found");
+            if (dto.Amount > account.Balance) throw new InvalidOperationException("Insufficient Funds");
             account.Balance -= dto.Amount;
 
             var transaction = new Transaction
@@ -76,9 +76,9 @@ namespace BankLite.Application.Services
         {
             var fromAccount = await _accountRepository.GetByIdAsync(dto.FromAccountId);
             var toAccount = await _accountRepository.GetByIdAsync(dto.ToAccountId);
-            if (fromAccount == null) throw new Exception("From Account Not Found");
-            if (toAccount == null) throw new Exception("To Account Not Found");
-            if (dto.Amount > fromAccount.Balance) throw new Exception("Insufficient Funds");
+            if (fromAccount == null) throw new InvalidOperationException("From Account Not Found");
+            if (toAccount == null) throw new InvalidOperationException("To Account Not Found");
+            if (dto.Amount > fromAccount.Balance) throw new InvalidOperationException("Insufficient Funds");
 
             await _unitOfWork.BeginTransactionAsync();
             try
