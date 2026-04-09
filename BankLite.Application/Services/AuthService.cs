@@ -29,7 +29,7 @@ namespace BankLite.Application.Services
         public async Task<AuthResponseDto> RegisterAsync(RegisterUserDto dto)
         {
             if (await _userRepository.ExistsAsync(dto.Email))
-                throw new Exception("Email already registered");
+                throw new InvalidOperationException("Email already registered");
 
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
