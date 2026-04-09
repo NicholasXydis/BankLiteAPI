@@ -14,21 +14,20 @@ namespace BankLite.API.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionService _transactionService;
-        private readonly IValidator<DepositWithdrawDto> _depositwithdrawValidator;
+        private readonly IValidator<DepositWithdrawDto> _depositWithdrawValidator;
         private readonly IValidator<TransferDto> _transferValidator;
-
 
         public TransactionController(ITransactionService transactionService, IValidator<DepositWithdrawDto> depositwithdrawValidator, IValidator<TransferDto> transferValidator)
         {
             _transactionService = transactionService;
-            _depositwithdrawValidator = depositwithdrawValidator;
+            _depositWithdrawValidator = depositwithdrawValidator;
             _transferValidator = transferValidator;
         }
 
         [HttpPost("deposit")]
         public async Task<IActionResult> Deposit([FromBody] DepositWithdrawDto dto)
         {
-            var validation = await _depositwithdrawValidator.ValidateAsync(dto);
+            var validation = await _depositWithdrawValidator.ValidateAsync(dto);
             if (!validation.IsValid)
                 return BadRequest(validation.Errors);
 
@@ -39,7 +38,7 @@ namespace BankLite.API.Controllers
         [HttpPost("withdraw")]
         public async Task<IActionResult> Withdraw([FromBody] DepositWithdrawDto dto)
         {
-            var validation = await _depositwithdrawValidator.ValidateAsync(dto);
+            var validation = await _depositWithdrawValidator.ValidateAsync(dto);
             if (!validation.IsValid)
                 return BadRequest(validation.Errors);
 
@@ -59,7 +58,7 @@ namespace BankLite.API.Controllers
         }
 
         [HttpGet("{accountId}")]
-        public async Task<IActionResult> GetTransactions(Guid accountId, [FromQuery] int page = 1 , [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> GetTransactions(Guid accountId, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var result = await _transactionService.GetTransactionsByAccountIdAsync(accountId, page, pageSize);
             return Ok(result);

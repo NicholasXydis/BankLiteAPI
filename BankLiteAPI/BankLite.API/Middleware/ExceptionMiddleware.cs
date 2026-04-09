@@ -19,9 +19,10 @@ namespace BankLite.API.Middleware
             }
             catch (Exception ex)
             {
-                context.Response.StatusCode = 500;
                 context.Response.ContentType = "application/json";
                 var error = new { message = ex.Message };
+
+                context.Response.StatusCode = ex is InvalidOperationException ? 400 : 500;
                 await context.Response.WriteAsync(JsonSerializer.Serialize(error));
             }
         }

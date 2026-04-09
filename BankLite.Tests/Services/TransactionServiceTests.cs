@@ -4,7 +4,6 @@ using BankLite.Application.Services;
 using BankLite.Domain.Entities;
 using BankLite.Domain.Interfaces;
 using Moq;
-using System.Security.Principal;
 using Xunit;
 
 namespace BankLite.Tests.Services
@@ -111,9 +110,9 @@ namespace BankLite.Tests.Services
 
             var dto = new TransferDto
             {
-               FromAccountId = fromAccount.Id,
-               ToAccountId = toAccount.Id,
-               Amount = 500
+                FromAccountId = fromAccount.Id,
+                ToAccountId = toAccount.Id,
+                Amount = 500
             };
 
             await _transactionService.TransferAsync(dto);

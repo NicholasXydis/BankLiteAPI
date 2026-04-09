@@ -2,7 +2,6 @@ using BankLite.Infrastructure.Data;
 using BankLite.Infrastructure.Repositories;
 using BankLite.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
 using BankLite.Application.Services;
 using BankLite.Application.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -123,16 +122,16 @@ if (app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<BankLiteDbContext>();
-    await SeedData.SeedAsync(context); 
+    await SeedData.SeedAsync(context);
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
 
+app.UseHttpsRedirection();
+
 app.UseCors("AllowFrontend");
 
 app.UseRateLimiter();
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 

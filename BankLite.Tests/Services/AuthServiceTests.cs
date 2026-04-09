@@ -5,8 +5,6 @@ using BankLite.Application.DTOs;
 using BankLite.Domain.Interfaces;
 using BankLite.Domain.Entities;
 using Microsoft.Extensions.Configuration;
-using System.ComponentModel;
-using System.Diagnostics.Contracts;
 
 namespace BankLite.Tests.Services
 {

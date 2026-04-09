@@ -6,18 +6,17 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace BankLite.API.Controllers
 {
-        [ApiController]
-        [Route("api/[controller]")]
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
+    {
+        private readonly IAuthService _authService;
+        private readonly IValidator<RegisterUserDto> _registerValidator;
+        private readonly IValidator<LoginUserDto> _loginValidator;
 
-        public class AuthController : ControllerBase
+        public AuthController(IAuthService authService, IValidator<RegisterUserDto> registerValidator, IValidator<LoginUserDto> loginValidator)
         {
-            private readonly IAuthService _authService;
-            private readonly IValidator<RegisterUserDto> _registerValidator;
-            private readonly IValidator<LoginUserDto> _loginValidator;
-
-            public AuthController(IAuthService authService, IValidator<RegisterUserDto> registerValidator, IValidator<LoginUserDto> loginValidator)
-        {
-            _authService = authService; 
+            _authService = authService;
             _registerValidator = registerValidator;
             _loginValidator = loginValidator;
         }
@@ -36,7 +35,7 @@ namespace BankLite.API.Controllers
 
         [EnableRateLimiting("login")]
         [HttpPost("login")]
-            public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
+        public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
         {
             var validation = await _loginValidator.ValidateAsync(dto);
             if (!validation.IsValid)
