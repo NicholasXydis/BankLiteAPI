@@ -31,8 +31,8 @@ namespace BankLite.API.Controllers
             if (!validation.IsValid)
                 return BadRequest(validation.Errors);
 
-            await _transactionService.DepositAsync(dto);
-            return Ok();
+            var result = await _transactionService.DepositAsync(dto);
+            return Ok(result);
         }
 
         [HttpPost("withdraw")]
@@ -42,8 +42,8 @@ namespace BankLite.API.Controllers
             if (!validation.IsValid)
                 return BadRequest(validation.Errors);
 
-            await _transactionService.WithdrawAsync(dto);
-            return Ok();
+            var result = await _transactionService.WithdrawAsync(dto);
+            return Ok(result);
         }
 
         [HttpPost("transfer")]

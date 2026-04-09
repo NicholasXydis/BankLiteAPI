@@ -25,7 +25,7 @@ namespace BankLite.Application.Services
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterUserDto dto)
         {
-            if (await _userRepository.ExistsAsync(dto.Email))
+            if (await _userRepository.ExistsAsync(dto.Email.ToLower()))
                 throw new InvalidOperationException("Email already registered");
 
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
@@ -33,7 +33,7 @@ namespace BankLite.Application.Services
             var user = new User
             {
                 FullName = dto.FullName,
-                Email = dto.Email,
+                Email = dto.Email.ToLower(),
                 PasswordHash = passwordHash
             };
             await _userRepository.AddAsync(user);
@@ -54,7 +54,7 @@ namespace BankLite.Application.Services
         }
         public async Task<AuthResponseDto> LoginAsync(LoginUserDto dto)
         {
-            var user = await _userRepository.GetByEmailAsync(dto.Email);
+            var user = await _userRepository.GetByEmailAsync(dto.Email.ToLower());
             if (user == null)
                 throw new InvalidOperationException("Invalid Credentials");
 

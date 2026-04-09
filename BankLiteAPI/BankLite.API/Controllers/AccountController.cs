@@ -32,7 +32,7 @@ namespace BankLite.API.Controllers
 
             var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             var result = await _accountService.CreateAccountAsync(dto, userId);
-            return Ok(result);
+            return CreatedAtAction(nameof(GetAccounts), result);
         }
 
         [HttpGet]

@@ -23,6 +23,7 @@ namespace BankLite.Infrastructure.Repositories
         {
             return await _context.Transactions
             .Where(t => t.AccountId == accountId)
+            .OrderByDescending(t => t.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

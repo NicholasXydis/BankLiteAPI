@@ -13,8 +13,15 @@ using System.Threading.RateLimiting;
 using FluentValidation;
 using BankLite.Application.Validators;
 using BankLite.Application.DTOs;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog((context, config) =>
+{
+    config
+        .WriteTo.Console()
+        .WriteTo.File("logs/banklite.txt", rollingInterval: RollingInterval.Day);
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

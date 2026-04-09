@@ -20,7 +20,7 @@ namespace BankLite.Application.Services
             _auditLogRepository = auditLogRepository;
         }
 
-        public async Task DepositAsync(DepositWithdrawDto dto)
+        public async Task<Transaction> DepositAsync(DepositWithdrawDto dto)
         {
             var account = await _accountRepository.GetByIdAsync(dto.AccountId);
             if (account == null) throw new InvalidOperationException("No Account Found");
@@ -45,9 +45,10 @@ namespace BankLite.Application.Services
                 PerformedAt = DateTime.UtcNow,
             });
 
+            return transaction;
         }
 
-        public async Task WithdrawAsync(DepositWithdrawDto dto)
+        public async Task<Transaction> WithdrawAsync(DepositWithdrawDto dto)
         {
             var account = await _accountRepository.GetByIdAsync(dto.AccountId);
             if (account == null) throw new InvalidOperationException("No Account Found");
@@ -72,6 +73,8 @@ namespace BankLite.Application.Services
                 Details = $"Withdrew {dto.Amount} from account {dto.AccountId}",
                 PerformedAt = DateTime.UtcNow,
             });
+
+            return transaction;
         }
 
         public async Task TransferAsync(TransferDto dto)
