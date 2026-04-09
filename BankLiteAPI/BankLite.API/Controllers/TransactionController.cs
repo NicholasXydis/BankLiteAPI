@@ -54,7 +54,7 @@ namespace BankLite.API.Controllers
                 return BadRequest(validation.Errors);
 
             await _transactionService.TransferAsync(dto);
-            return Ok();
+            return Ok(new { message = "Transfer successful", amount = dto.Amount });
         }
 
         [HttpGet("{accountId}")]

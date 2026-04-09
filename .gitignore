@@ -486,3 +486,4 @@ appsettings.json
 appsettings.Development.json
 *.user
 .vs/
+/logs
