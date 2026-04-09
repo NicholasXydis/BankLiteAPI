@@ -24,7 +24,7 @@ namespace BankLite.Infrastructure.Data
                 UserId = user.Id,
                 Type = AccountType.Chequing,
                 AccountNumber = "Test001",
-                Balance = 1000
+                Balance = 1000m
             };
 
             var savings = new Account
@@ -32,7 +32,7 @@ namespace BankLite.Infrastructure.Data
                 UserId = user.Id,
                 Type = AccountType.Savings,
                 AccountNumber = "Test002",
-                Balance = 5000
+                Balance = 5000m
             };
 
             await context.Accounts.AddRangeAsync(chequing, savings);
