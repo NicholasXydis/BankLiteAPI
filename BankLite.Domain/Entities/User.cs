@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankLite.Domain.Entities
 {
@@ -13,6 +10,6 @@ namespace BankLite.Domain.Entities
         public required string Email { get; set; }
         public required string PasswordHash { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public ICollection<Account> Accounts { get; set; }
+        public ICollection<Account> Accounts { get; set; } = new List<Account>();
     }
 }
