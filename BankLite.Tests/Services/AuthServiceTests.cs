@@ -25,9 +25,58 @@ namespace BankLite.Tests.Services
             jwtSection.Setup(x => x["Secret"]).Returns("supersecretkey12345678901234567890");
             jwtSection.Setup(x => x["Issuer"]).Returns("BankLiteAPI");
             jwtSection.Setup(x => x["Audience"]).Returns("BankLiteClient");
+            jwtSection.Setup(x => x["ExpiryMinutes"]).Returns("60");
             _mockConfig.Setup(x => x.GetSection("JwtSettings")).Returns(jwtSection.Object);
 
             _authService = new AuthService(_mockUserRepo.Object, _mockConfig.Object, _mockAuditRepo.Object);
+        }
+
+        [Fact]
+        public async Task LoginAsync_ShouldReturnToken_OnSuccess()
+        {
+            var existingUser = new User
+            {
+                Id = Guid.NewGuid(),
+                Email = "test@banklite.com",
+                FullName = "Test User",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("Password123")
+            };
+
+            _mockUserRepo
+                .Setup(r => r.GetByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync(existingUser);
+
+            var dto = new LoginUserDto
+            {
+                Email = "test@banklite.com",
+                Password = "Password123"
+            };
+
+            var result = await _authService.LoginAsync(dto);
+
+            Assert.NotNull(result);
+            Assert.NotEmpty(result.Token);
+            Assert.Equal(existingUser.Id, result.UserId);
+        }
+
+        [Fact]
+        public async Task RegisterAsync_ShouldReturnToken_OnSuccess()
+        {
+            _mockUserRepo
+                .Setup(r => r.ExistsAsync(It.IsAny<string>()))
+                .ReturnsAsync(false);
+
+            var dto = new RegisterUserDto
+            {
+                FullName = "New User",
+                Email = "new@banklite.com",
+                Password = "Password123"
+            };
+
+            var result = await _authService.RegisterAsync(dto);
+
+            Assert.NotNull(result);
+            Assert.NotEmpty(result.Token);
         }
 
         [Fact]
