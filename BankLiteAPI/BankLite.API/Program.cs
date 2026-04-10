@@ -124,12 +124,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<BankLiteDbContext>();
-    await SeedData.SeedAsync(context);
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<BankLiteDbContext>();
+        await SeedData.SeedAsync(context);
+    }
 }
 
 app.UseMiddleware<ExceptionMiddleware>();

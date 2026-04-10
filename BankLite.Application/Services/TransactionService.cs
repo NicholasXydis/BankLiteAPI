@@ -20,10 +20,11 @@ namespace BankLite.Application.Services
             _auditLogRepository = auditLogRepository;
         }
 
-        public async Task<Transaction> DepositAsync(DepositWithdrawDto dto)
+        public async Task<Transaction> DepositAsync(DepositWithdrawDto dto, Guid userId)
         {
             var account = await _accountRepository.GetByIdAsync(dto.AccountId);
-            if (account == null) throw new InvalidOperationException("No Account Found");
+            if (account == null || account.UserId != userId)
+                throw new UnauthorizedAccessException("You do not have access to this account.");
             account.Balance += dto.Amount;
 
             var transaction = new Transaction
@@ -41,17 +42,18 @@ namespace BankLite.Application.Services
             await _auditLogRepository.LogAsync(new AuditLog
             {
                 Action = "Deposit",
-                Details = $"Deposited {dto.Amount} to account {dto.AccountId}",
+                Details = $"User {userId} deposited {dto.Amount} to account {dto.AccountId}",
                 PerformedAt = DateTime.UtcNow,
             });
 
             return transaction;
         }
 
-        public async Task<Transaction> WithdrawAsync(DepositWithdrawDto dto)
+        public async Task<Transaction> WithdrawAsync(DepositWithdrawDto dto, Guid userId)
         {
             var account = await _accountRepository.GetByIdAsync(dto.AccountId);
-            if (account == null) throw new InvalidOperationException("No Account Found");
+            if (account == null || account.UserId != userId)
+                throw new UnauthorizedAccessException("You do not have access to this account.");
             if (dto.Amount > account.Balance) throw new InvalidOperationException("Insufficient Funds");
             account.Balance -= dto.Amount;
 
@@ -70,18 +72,19 @@ namespace BankLite.Application.Services
             await _auditLogRepository.LogAsync(new AuditLog
             {
                 Action = "Withdrawal",
-                Details = $"Withdrew {dto.Amount} from account {dto.AccountId}",
+                Details = $"User {userId} withdrew {dto.Amount} from account {dto.AccountId}",
                 PerformedAt = DateTime.UtcNow,
             });
 
             return transaction;
         }
 
-        public async Task TransferAsync(TransferDto dto)
+        public async Task TransferAsync(TransferDto dto, Guid userId)
         {
             var fromAccount = await _accountRepository.GetByIdAsync(dto.FromAccountId);
             var toAccount = await _accountRepository.GetByIdAsync(dto.ToAccountId);
-            if (fromAccount == null) throw new InvalidOperationException("From Account Not Found");
+            if (fromAccount == null || fromAccount.UserId != userId)
+                throw new UnauthorizedAccessException("You do not have access to this account.");
             if (toAccount == null) throw new InvalidOperationException("To Account Not Found");
             if (dto.Amount > fromAccount.Balance) throw new InvalidOperationException("Insufficient Funds");
 
@@ -117,7 +120,7 @@ namespace BankLite.Application.Services
                 await _auditLogRepository.LogAsync(new AuditLog
                 {
                     Action = "Transfer",
-                    Details = $"Transferred {dto.Amount} from account {dto.FromAccountId} to account {dto.ToAccountId}",
+                    Details = $"User {userId} transferred {dto.Amount} from account {dto.FromAccountId} to account {dto.ToAccountId}",
                     PerformedAt = DateTime.UtcNow,
                 });
             }
@@ -129,8 +132,12 @@ namespace BankLite.Application.Services
             }
         }
 
-        public async Task<PagedResultDto<Transaction>> GetTransactionsByAccountIdAsync(Guid accountId, int page, int pageSize)
+        public async Task<PagedResultDto<Transaction>> GetTransactionsByAccountIdAsync(Guid accountId, Guid userId, int page, int pageSize)
         {
+            var account = await _accountRepository.GetByIdAsync(accountId);
+            if (account == null || account.UserId != userId)
+                throw new UnauthorizedAccessException("You do not have access to this account.");
+
             var transactions = await _transactionRepository.GetByAccountIdAsync(accountId, page, pageSize);
             var totalCount = await _transactionRepository.GetTotalCountAsync(accountId);
             return new PagedResultDto<Transaction>

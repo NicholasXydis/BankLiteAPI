@@ -22,7 +22,13 @@ namespace BankLite.API.Middleware
                 context.Response.ContentType = "application/json";
                 var error = new { message = ex.Message };
 
-                context.Response.StatusCode = ex is InvalidOperationException ? 400 : 500;
+                context.Response.StatusCode = ex switch
+                {
+                    InvalidOperationException => 400,
+                    UnauthorizedAccessException => 401,
+                    _ => 500
+                };
+
                 await context.Response.WriteAsync(JsonSerializer.Serialize(error));
             }
         }

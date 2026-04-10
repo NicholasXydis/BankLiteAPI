@@ -4,6 +4,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using System.Security.Claims;
 
 namespace BankLite.API.Controllers
 {
@@ -31,7 +32,8 @@ namespace BankLite.API.Controllers
             if (!validation.IsValid)
                 return BadRequest(validation.Errors);
 
-            var result = await _transactionService.DepositAsync(dto);
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var result = await _transactionService.DepositAsync(dto, userId);
             return Ok(result);
         }
 
@@ -42,7 +44,8 @@ namespace BankLite.API.Controllers
             if (!validation.IsValid)
                 return BadRequest(validation.Errors);
 
-            var result = await _transactionService.WithdrawAsync(dto);
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var result = await _transactionService.WithdrawAsync(dto, userId);
             return Ok(result);
         }
 
@@ -53,14 +56,16 @@ namespace BankLite.API.Controllers
             if (!validation.IsValid)
                 return BadRequest(validation.Errors);
 
-            await _transactionService.TransferAsync(dto);
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            await _transactionService.TransferAsync(dto, userId);
             return Ok(new { message = "Transfer successful", amount = dto.Amount });
         }
 
         [HttpGet("{accountId}")]
         public async Task<IActionResult> GetTransactions(Guid accountId, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var result = await _transactionService.GetTransactionsByAccountIdAsync(accountId, page, pageSize);
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var result = await _transactionService.GetTransactionsByAccountIdAsync(accountId, userId, page, pageSize);
             return Ok(result);
         }
     }
