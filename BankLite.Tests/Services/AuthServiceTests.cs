@@ -1,10 +1,11 @@
-﻿using Moq;
-using Xunit;
+﻿using BankLite.Application.DTOs;
 using BankLite.Application.Services;
-using BankLite.Application.DTOs;
-using BankLite.Domain.Interfaces;
 using BankLite.Domain.Entities;
+using BankLite.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
+using Xunit;
 
 namespace BankLite.Tests.Services
 {
@@ -28,7 +29,7 @@ namespace BankLite.Tests.Services
             jwtSection.Setup(x => x["ExpiryMinutes"]).Returns("60");
             _mockConfig.Setup(x => x.GetSection("JwtSettings")).Returns(jwtSection.Object);
 
-            _authService = new AuthService(_mockUserRepo.Object, _mockConfig.Object, _mockAuditRepo.Object);
+            _authService = new AuthService(_mockUserRepo.Object, _mockConfig.Object, _mockAuditRepo.Object, new NullLogger<AuthService>());
         }
 
         [Fact]

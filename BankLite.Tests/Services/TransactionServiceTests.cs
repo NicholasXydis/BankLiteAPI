@@ -3,6 +3,7 @@ using BankLite.Application.Interfaces;
 using BankLite.Application.Services;
 using BankLite.Domain.Entities;
 using BankLite.Domain.Interfaces;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
 
@@ -23,7 +24,7 @@ namespace BankLite.Tests.Services
             _mockUnitOfWork = new Mock<IUnitOfWork>();
             _mockAuditLogRepo = new Mock<IAuditLogRepository>();
 
-            _transactionService = new TransactionService(_mockAccountRepo.Object, _mockTransactionRepo.Object, _mockUnitOfWork.Object, _mockAuditLogRepo.Object);
+            _transactionService = new TransactionService(_mockAccountRepo.Object, _mockTransactionRepo.Object, _mockUnitOfWork.Object, _mockAuditLogRepo.Object, new NullLogger<TransactionService>());
         }
 
         [Fact]

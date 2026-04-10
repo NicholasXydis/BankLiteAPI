@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Logging;
 
 namespace BankLite.Application.Services
 {
@@ -15,18 +16,23 @@ namespace BankLite.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
         private readonly IAuditLogRepository _auditLogRepository;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(IUserRepository userRepository, IConfiguration configuration, IAuditLogRepository auditLogRepository)
+        public AuthService(IUserRepository userRepository, IConfiguration configuration, IAuditLogRepository auditLogRepository, ILogger<AuthService> logger)
         {
             _userRepository = userRepository;
             _configuration = configuration;
             _auditLogRepository = auditLogRepository;
+            _logger = logger;
         }
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterUserDto dto)
         {
             if (await _userRepository.ExistsAsync(dto.Email.ToLower()))
+            {
+                _logger.LogWarning("Registration failed - email already exists: {Email}", dto.Email);
                 throw new InvalidOperationException("Email already registered");
+            }
 
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
@@ -37,6 +43,7 @@ namespace BankLite.Application.Services
                 PasswordHash = passwordHash
             };
             await _userRepository.AddAsync(user);
+            _logger.LogInformation("User Registered Successfully: {Email}", dto.Email);
 
             await _auditLogRepository.LogAsync(new AuditLog
             {
@@ -56,10 +63,16 @@ namespace BankLite.Application.Services
         {
             var user = await _userRepository.GetByEmailAsync(dto.Email.ToLower());
             if (user == null)
+            {
+                _logger.LogWarning("Login failed - user not found: {Email}", dto.Email.ToLower());
                 throw new InvalidOperationException("Invalid Credentials");
+            }
 
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+            {
+                _logger.LogWarning("Login failed - wrong password: {Email}", dto.Email.ToLower());
                 throw new InvalidOperationException("Invalid Credentials");
+            }
 
             await _auditLogRepository.LogAsync(new AuditLog
             {
@@ -67,6 +80,8 @@ namespace BankLite.Application.Services
                 Details = $"User {user.Email} logged in",
                 PerformedAt = DateTime.UtcNow,
             });
+
+            _logger.LogInformation("User logged in successfully: {Email}", user.Email);
 
             var token = GenerateToken(user);
             return new AuthResponseDto
