@@ -2,6 +2,7 @@
 using BankLite.Application.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Security.Claims;
@@ -34,7 +35,17 @@ namespace BankLite.API.Controllers
 
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             var result = await _transactionService.DepositAsync(dto, userId);
-            return Ok(result);
+            var response = new TransactionResponseDto
+            {
+                Id = result.Id,
+                AccountId = result.AccountId,
+                Amount = result.Amount,
+                Type = result.Type.ToString(),
+                Description = result.Description,
+                CreatedAt = result.CreatedAt,
+            };
+
+            return Ok(response);
         }
 
         [HttpPost("withdraw")]
@@ -46,7 +57,16 @@ namespace BankLite.API.Controllers
 
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             var result = await _transactionService.WithdrawAsync(dto, userId);
-            return Ok(result);
+            var response = new TransactionResponseDto
+            {
+                Id = result.Id,
+                AccountId = result.AccountId,
+                Amount = result.Amount,
+                Type = result.Type.ToString(),
+                Description = result.Description,
+                CreatedAt = result.CreatedAt,
+            };
+            return Ok(response);
         }
 
         [HttpPost("transfer")]
@@ -66,7 +86,23 @@ namespace BankLite.API.Controllers
         {
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             var result = await _transactionService.GetTransactionsByAccountIdAsync(accountId, userId, page, pageSize);
-            return Ok(result);
+
+            var response = new PagedResultDto<TransactionResponseDto>
+            {
+                Items = result.Items.Select(t => new TransactionResponseDto
+                {
+                    Id = t.Id,
+                    AccountId = t.AccountId,
+                    Amount = t.Amount,
+                    Type = t.Type.ToString(),
+                    Description = t.Description,
+                    CreatedAt = t.CreatedAt
+                }),
+                TotalCount = result.TotalCount,
+                Page = result.Page,
+                PageSize = result.PageSize
+            };
+            return Ok(response);
         }
     }
 }

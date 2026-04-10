@@ -32,7 +32,16 @@ namespace BankLite.API.Controllers
 
             var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             var result = await _accountService.CreateAccountAsync(dto, userId);
-            return StatusCode(201, result);
+
+            var response = new AccountResponseDto
+            {
+                Id = result.Id,
+                AccountNumber = result.AccountNumber,
+                Type = result.Type.ToString(),
+                Balance = result.Balance,
+                CreatedAt = result.CreatedAt
+            };
+            return StatusCode(201, response);
         }
 
         [HttpGet]
@@ -40,7 +49,16 @@ namespace BankLite.API.Controllers
         {
             var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             var result = await _accountService.GetAccountsByUserIdAsync(userId);
-            return Ok(result);
+
+            var response = result.Select(a => new AccountResponseDto
+            {
+                Id = a.Id,
+                AccountNumber = a.AccountNumber,
+                Type = a.Type.ToString(),
+                Balance = a.Balance,
+                CreatedAt = a.CreatedAt
+            });
+            return Ok(response);
         }
     }
 }
