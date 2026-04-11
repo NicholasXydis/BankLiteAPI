@@ -9,6 +9,7 @@ namespace BankLite.Application.Validators
         {
             RuleFor(x => x.Amount).GreaterThan(0);
             RuleFor(x => x.FromAccountId).NotEmpty();
+            RuleFor(x => x.ToAccountId).NotEqual(x => x.FromAccountId).WithMessage("Cannot transfer to the same account.");
             RuleFor(x => x.ToAccountId).NotEmpty();
         }
     }
