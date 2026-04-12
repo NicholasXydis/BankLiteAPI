@@ -72,7 +72,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"type\": \"Chequing\"\n}",
+							"raw": "{\n\t\"type\": 0\n}",
 							"options": {"raw": {"language": "json"}}
 						},
 						"url": "{{baseUrl}}/api/account/create"
