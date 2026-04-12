@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read 
+      contents: read
 
     steps:
       - name: Checkout
@@ -43,15 +43,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write 
-      contents: read 
+      id-token: write
+      contents: read
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
       - name: Azure Login
         uses: azure/login@v2
         with:
@@ -65,4 +65,3 @@ jobs:
         with:
           app-name: 'bankliteapi'
           package: .
-          
