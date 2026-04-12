@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    defaults:
+      run:
+        working-directory: BankLiteAPI
 
     steps:
       - name: Checkout
@@ -22,22 +25,21 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore
-        run: dotnet restore BankLiteAPI/BankLiteAPI.sln
-
+        run: dotnet restore
       - name: Build
-        run: dotnet build BankLiteAPI/BankLiteAPI.sln --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test BankLiteAPI/BankLiteAPI.sln --configuration Release --no-build --verbosity normal
+        run: dotnet test --configuration Release --no-build --verbosity normal
 
       - name: Publish
-        run: dotnet publish BankLiteAPI/BankLite.API/BankLite.API.csproj -c Release -o ./publish --no-build
+        run: dotnet publish BankLite.API/BankLite.API.csproj -c Release -o ./publish --no-build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ./publish
+          path: BankLiteAPI/publish
 
   deploy:
     runs-on: ubuntu-latest
