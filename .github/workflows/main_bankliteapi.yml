@@ -22,13 +22,13 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore
-        run: dotnet restore BankLiteAPI.sln
+        run: dotnet restore BankLiteAPI/BankLiteAPI.sln
 
       - name: Build
-        run: dotnet build BankLiteAPI.sln --configuration Release --no-restore
+        run: dotnet build BankLiteAPI/BankLiteAPI.sln --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test BankLiteAPI.sln --configuration Release --no-build --verbosity normal
+        run: dotnet test BankLiteAPI/BankLiteAPI.sln --configuration Release --no-build --verbosity normal
 
       - name: Publish
         run: dotnet publish BankLiteAPI/BankLite.API/BankLite.API.csproj -c Release -o ./publish --no-build
