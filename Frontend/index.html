@@ -1,24 +1,118 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="BankLite — secure online banking. Manage your accounts, deposits, withdrawals and transfers."
+    />
+    <meta name="robots" content="index, follow" />
     <title>BankLite — Login</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-    <main> 
-        <form>
-            <h1> BankLiteAPI </h1>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" placeholder="you@example.com">
-             <label for="password">Password</label>
-            <input type="password" name="password" id="password" placeholder="••••••••"> 
-            <button> Sign In </button>
-            <a href="register.html"> Don't have an account? Register</a>
-        </form>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <main>
+      <form id="login-form" novalidate>
+        <div class="logo">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#1a3a5c"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="5" width="20" height="14" rx="3" />
+            <line x1="2" y1="10" x2="22" y2="10" />
+            <line x1="6" y1="15" x2="10" y2="15" />
+            <circle cx="17" cy="15" r="1.5" fill="#1a3a5c" />
+          </svg>
+        </div>
+        <h1>BankLite</h1>
+        <p>Welcome back</p>
+        <div
+          id="error-msg"
+          class="error-msg"
+          role="alert"
+          aria-live="polite"
+        ></div>
+        <label for="email">Email</label>
+
+        <div class="input-wrap">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            class="input-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#9ca3af"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+            />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="you@example.com"
+            required
+            autocomplete="email"
+          />
+        </div>
+
+        <label for="password">Password</label>
+
+        <div class="input-wrap">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            class="input-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#9ca3af"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button type="submit" id="login-btn">Sign in</button>
+        <p class="auth-footer">
+          <span class="muted">Don't have an account?</span>
+          <a class="link-accent" href="register.html">Register</a>
+        </p>
+      </form>
     </main>
-    <script src="js/auth.js"></script>
     <script src="js/api.js"></script>
-</body>
+    <script src="js/auth.js"></script>
+  </body>
 </html>
