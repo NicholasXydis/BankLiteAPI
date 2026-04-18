@@ -1,0 +1,133 @@
+const API_URL =
+  "https://bankliteapi-accpeqhrcybqe9gy.canadacentral-01.azurewebsites.net";
+
+async function login(email, password) {
+  const response = await fetch(API_URL + "/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Login failed");
+  }
+
+  return data;
+}
+
+async function register(fullName, email, password) {
+  const response = await fetch(API_URL + "/api/auth/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ fullname, email, password }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Registration failed");
+  }
+
+  return data;
+}
+
+async function getAccounts(token) {
+  const response = await fetch(API_URL + "/api/account", {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to fetch accounts");
+  }
+  return data;
+}
+
+async function deposit(token, accountId, amount) {
+  const response = await fetch(API_URL + "/api/transaction/deposit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify({ accountId, amount }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to deposit funds");
+  }
+
+  return data;
+}
+
+async function withdraw(token, accountId, amount) {
+  const response = await fetch(API_URL + "/api/transaction/withdraw", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify({ accountId, amount }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to withdraw funds");
+  }
+
+  return data;
+}
+
+async function transfer(token, fromAccountId, toAccountId, amount) {
+  const response = await fetch(API_URL + "/api/transaction/transfer", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify({ fromAccountId, toAccountId, amount }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to transfer funds");
+  }
+
+  return data;
+}
+
+async function getTransactions(token, accountId, page = 1, pageSize = 10) {
+  const response = await fetch(
+    API_URL + `/api/transaction/${accountId}?page=${page}&pageSize=${pageSize}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    },
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to fetch transactions");
+  }
+
+  return data;
+}
+
+async;
