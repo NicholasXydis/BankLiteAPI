@@ -131,15 +131,6 @@ builder.Services.AddRateLimiter(options =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<BankLiteDbContext>();
-    if (!app.Environment.IsDevelopment())
-    {
-        db.Database.Migrate();
-    }
-}
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
