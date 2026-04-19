@@ -25,7 +25,7 @@ async function register(fullName, email, password) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ fullname, email, password }),
+    body: JSON.stringify({ fullName, email, password }),
   });
 
   const data = await response.json();
@@ -129,5 +129,3 @@ async function getTransactions(token, accountId, page = 1, pageSize = 10) {
 
   return data;
 }
-
-async;
