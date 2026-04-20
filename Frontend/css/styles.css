@@ -317,3 +317,50 @@ input.error {
   color: #0f2340;
   margin-top: 0.5rem;
 }
+
+.form-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.75rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group select {
+  height: 48px;
+  padding: 0 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  color: #1f2937;
+  background: #f1f5f9;
+  outline: none;
+}
+
+.balance-display {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f2340;
+  margin: 0;
+  text-align: left;
+}
+
+.success-msg {
+  display: none;
+  background: #dcfce7;
+  color: #166534;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  text-align: center;
+}
