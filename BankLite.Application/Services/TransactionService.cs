@@ -39,7 +39,7 @@ namespace BankLite.Application.Services
                 AccountId = dto.AccountId,
                 Amount = dto.Amount,
                 Type = TransactionType.Deposit,
-                Description = $"Deposit of {dto.Amount}"
+                Description = $"Deposit of ${dto.Amount:F2}"
             };
 
             await _transactionRepository.AddAsync(transaction);
@@ -79,7 +79,7 @@ namespace BankLite.Application.Services
                 AccountId = dto.AccountId,
                 Amount = dto.Amount,
                 Type = TransactionType.Withdrawal,
-                Description = $"Withdrawal of {dto.Amount}"
+                Description = $"Withdrawal of ${dto.Amount:F2}"
             };
 
             await _transactionRepository.AddAsync(transaction);
