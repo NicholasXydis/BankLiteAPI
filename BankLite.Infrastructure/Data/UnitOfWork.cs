@@ -1,5 +1,6 @@
 ﻿using BankLite.Domain.Interfaces;
 using BankLite.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankLite.Infrastructure.Data
 {
@@ -30,6 +31,26 @@ namespace BankLite.Infrastructure.Data
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public async Task ExecuteInTransactionAsync(Func<Task> operation)
+        {
+            var strategy = _context.Database.CreateExecutionStrategy();
+            await strategy.ExecuteAsync(async () =>
+            {
+                await using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    await operation();
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            });
         }
     }
 

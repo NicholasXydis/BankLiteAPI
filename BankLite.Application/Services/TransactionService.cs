@@ -109,8 +109,7 @@ namespace BankLite.Application.Services
             if (toAccount == null) throw new InvalidOperationException("To Account Not Found");
             if (dto.Amount > fromAccount.Balance) throw new InvalidOperationException("Insufficient Funds");
 
-            await _unitOfWork.BeginTransactionAsync();
-            try
+            await _unitOfWork.ExecuteInTransactionAsync(async () =>
             {
                 fromAccount.Balance -= dto.Amount;
                 toAccount.Balance += dto.Amount;
@@ -135,24 +134,16 @@ namespace BankLite.Application.Services
 
                 await _transactionRepository.AddAsync(debitTransaction);
                 await _transactionRepository.AddAsync(creditTransaction);
+            });
 
-                await _unitOfWork.CommitAsync();
-                _logger.LogInformation("Transfer of {Amount} from account {FromAccountId} to account {ToAccountId} by user {UserId}", dto.Amount, dto.FromAccountId, dto.ToAccountId, userId);
+            _logger.LogInformation("Transfer of {Amount} from account {FromAccountId} to account {ToAccountId} by user {UserId}", dto.Amount, dto.FromAccountId, dto.ToAccountId, userId);
 
-                await _auditLogRepository.LogAsync(new AuditLog
-                {
-                    Action = "Transfer",
-                    Details = $"User {userId} transferred {dto.Amount} from account {dto.FromAccountId} to account {dto.ToAccountId}",
-                    PerformedAt = DateTime.UtcNow,
-                });
-            }
-
-            catch
+            await _auditLogRepository.LogAsync(new AuditLog
             {
-                await _unitOfWork.RollbackAsync();
-                _logger.LogError("Transfer failed and rolled back for user {UserId}", userId);
-                throw;
-            }
+                Action = "Transfer",
+                Details = $"User {userId} transferred {dto.Amount} from account {dto.FromAccountId} to account {dto.ToAccountId}",
+                PerformedAt = DateTime.UtcNow,
+            });
         }
 
         public async Task<PagedResultDto<Transaction>> GetTransactionsByAccountIdAsync(Guid accountId, Guid userId, int page, int pageSize)

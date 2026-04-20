@@ -25,6 +25,11 @@ namespace BankLite.Tests.Services
             _mockAuditLogRepo = new Mock<IAuditLogRepository>();
 
             _transactionService = new TransactionService(_mockAccountRepo.Object, _mockTransactionRepo.Object, _mockUnitOfWork.Object, _mockAuditLogRepo.Object, new NullLogger<TransactionService>());
+
+            _mockUnitOfWork
+    .Setup(u => u.ExecuteInTransactionAsync(It.IsAny<Func<Task>>()))
+    .Returns((Func<Task> operation) => operation());
+
         }
 
         [Fact]
@@ -130,7 +135,6 @@ namespace BankLite.Tests.Services
 
             _mockTransactionRepo.Verify(r => r.AddAsync(It.IsAny<Transaction>()), Times.Exactly(2));
             _mockAccountRepo.Verify(r => r.UpdateAsync(It.IsAny<Account>()), Times.Exactly(2));
-            _mockUnitOfWork.Verify(r => r.CommitAsync(), Times.Once);
         }
 
         [Fact]
