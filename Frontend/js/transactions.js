@@ -35,7 +35,7 @@ async function loadTransactions(accountId, page) {
         <span class="transaction-type">${transaction.type}</span>
         <span class="transaction-desc">${transaction.description}</span>
         <span class="transaction-amount">$${transaction.amount.toFixed(2)}</span>
-        <span class="transaction-date">${new Date(transaction.createdAt).toLocaleDateString()}</span>
+        <span class="transaction-date">${new Date(transaction.createdAt).toLocaleString()}</span>
       `;
       transactionsList.appendChild(row);
     });
@@ -59,6 +59,15 @@ async function loadAccounts() {
 
   try {
     const accounts = await getAccounts(token);
+
+    if (accounts.length === 0) {
+      document.getElementById("empty-state").style.display = "block";
+      document.querySelector(".form-card").style.display = "none";
+      return;
+    }
+
+    document.querySelector(".form-card").style.display = "block";
+
     accountSelect.innerHTML = "";
     accounts.forEach((account) => {
       const option = document.createElement("option");
@@ -66,9 +75,8 @@ async function loadAccounts() {
       option.textContent = `${account.type} - $${account.balance.toFixed(2)}`;
       accountSelect.appendChild(option);
     });
-    if (accounts.length > 0) {
-      await loadTransactions(accounts[0].id, 1);
-    }
+
+    await loadTransactions(accounts[0].id, 1);
   } catch (error) {
     document.getElementById("error-msg").textContent = error.message;
     document.getElementById("error-msg").style.display = "block";

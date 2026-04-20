@@ -45,7 +45,13 @@
       </aside>
       <main class="dashboard-main">
         <h1 class="dashboard-title">Deposit Funds</h1>
-        <div class="form-card">
+        <div id="empty-state" class="empty-state" style="display: none">
+          <p>
+            You have no accounts.
+            <a href="dashboard.html">Create one on the dashboard.</a>
+          </p>
+        </div>
+        <div class="form-card" style="display: none">
           <div
             id="error-msg"
             class="error-msg"
