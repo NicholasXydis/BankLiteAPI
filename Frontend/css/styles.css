@@ -364,3 +364,68 @@ input.error {
   font-size: 0.875rem;
   text-align: center;
 }
+
+.transaction-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  gap: 1rem;
+}
+
+.transaction-row:last-child {
+  border-bottom: none;
+}
+
+.transaction-type {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #1a3a5c;
+  min-width: 80px;
+}
+
+.transaction-desc {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.transaction-amount {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #0f2340;
+}
+
+.transaction-date {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  min-width: 80px;
+  text-align: right;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.pagination button {
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+#page-info {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.no-transactions {
+  text-align: center;
+  color: #9ca3af;
+  padding: 2rem 0;
+}
