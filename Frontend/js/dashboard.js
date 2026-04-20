@@ -36,11 +36,6 @@ async function loadDashboard() {
   }
 }
 
-document.getElementById("logout-btn").addEventListener("click", function () {
-  logout();
-  window.location.href = "index.html";
-});
-
 document
   .getElementById("create-account-btn")
   .addEventListener("click", async function () {

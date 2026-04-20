@@ -341,6 +341,10 @@ input.error {
   gap: 0.5rem;
 }
 
+.form-card button {
+  margin-top: 0.5rem;
+}
+
 .form-group select {
   height: 48px;
   padding: 0 14px;
@@ -433,4 +437,21 @@ input.error {
   text-align: center;
   color: #9ca3af;
   padding: 2rem 0;
+}
+
+.empty-state {
+  background: #fff;
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  color: #0f2340;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.empty-state a {
+  color: #1a3a5c;
+  font-weight: 700;
+  text-decoration: underline;
 }
