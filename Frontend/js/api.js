@@ -129,3 +129,22 @@ async function getTransactions(token, accountId, page = 1, pageSize = 10) {
 
   return data;
 }
+
+async function createAccount(token, accountType) {
+  const response = await fetch(API_URL + "/api/account/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify({ type: accountType }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to create account");
+  }
+
+  return data;
+}

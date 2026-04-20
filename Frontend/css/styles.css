@@ -295,6 +295,7 @@ input.error {
   padding: 1.75rem;
   width: 100%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1rem;
 }
 
 .account-card h2 {
@@ -315,6 +316,10 @@ input.error {
   font-size: 1.75rem;
   font-weight: 700;
   color: #0f2340;
+  margin-top: 0.5rem;
+}
+
+#create-account-btn {
   margin-top: 0.5rem;
 }
 

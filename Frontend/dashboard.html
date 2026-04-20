@@ -54,6 +54,30 @@
           aria-live="polite"
         ></div>
         <div id="accounts-container"></div>
+
+        <div class="form-card" id="create-account-section">
+          <h2 class="section-title">Create Account</h2>
+          <div
+            id="create-error-msg"
+            class="error-msg"
+            role="alert"
+            aria-live="polite"
+          ></div>
+          <div
+            id="create-success-msg"
+            class="success-msg"
+            role="status"
+            aria-live="polite"
+          ></div>
+          <div class="form-group">
+            <label for="account-type-select">Account Type</label>
+            <select id="account-type-select">
+              <option value="0">Chequing</option>
+              <option value="1">Savings</option>
+            </select>
+          </div>
+          <button id="create-account-btn">Create Account</button>
+        </div>
       </main>
     </div>
     <script src="js/api.js"></script>
