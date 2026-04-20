@@ -95,4 +95,12 @@ if (registerForm) {
       button.textContent = "Register";
     }
   });
+
+  const logoutBtn = document.getElementById("logout-btn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", function () {
+      logout();
+      window.location.href = "index.html";
+    });
+  }
 }
