@@ -49,6 +49,7 @@ if (loginForm) {
       window.location.href = "dashboard.html";
     } catch (error) {
       errorMsg.textContent = error.message;
+      errorMsg.style.display = "block";
       button.disabled = false;
       button.textContent = "Sign in";
     }
