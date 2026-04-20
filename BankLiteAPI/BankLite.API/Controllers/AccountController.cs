@@ -31,17 +31,25 @@ namespace BankLite.API.Controllers
                 return BadRequest(validation.Errors);
 
             var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-            var result = await _accountService.CreateAccountAsync(dto, userId);
 
-            var response = new AccountResponseDto
+            try
             {
-                Id = result.Id,
-                AccountNumber = result.AccountNumber,
-                Type = result.Type.ToString(),
-                Balance = result.Balance,
-                CreatedAt = result.CreatedAt
-            };
-            return StatusCode(201, response);
+                var result = await _accountService.CreateAccountAsync(dto, userId);
+
+                var response = new AccountResponseDto
+                {
+                    Id = result.Id,
+                    AccountNumber = result.AccountNumber,
+                    Type = result.Type.ToString(),
+                    Balance = result.Balance,
+                    CreatedAt = result.CreatedAt
+                };
+                return StatusCode(201, response);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpGet]

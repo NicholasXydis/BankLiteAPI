@@ -19,6 +19,11 @@ namespace BankLite.Application.Services
 
         public async Task<Account> CreateAccountAsync(CreateAccountDto dto, Guid userId)
         {
+
+            var existingAccounts = await _accountRepository.GetByUserIdAsync(userId);
+            if (existingAccounts.Any(a => a.Type == dto.Type))
+                throw new InvalidOperationException($"You already have a {dto.Type} account.");
+
             var account = new Account
             {
                 UserId = userId,
