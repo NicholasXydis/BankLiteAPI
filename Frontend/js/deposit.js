@@ -74,6 +74,38 @@ document
       await deposit(token, accountId, amount);
       successMsg.textContent = `Successfully deposited $${amount.toFixed(2)}!`;
       successMsg.style.display = "block";
+
+      const isFirstDeposit = !sessionStorage.getItem("hasDeposited");
+      if (isFirstDeposit) {
+        sessionStorage.setItem("hasDeposited", "true");
+        confetti({
+          particleCount: 150,
+          spread: 100,
+          origin: { y: 0.6 },
+          colors: ["#1a3a5c", "#4f86c6", "#ffffff", "#FFD700", "#e2e8f0"],
+        });
+        setTimeout(
+          () =>
+            confetti({
+              particleCount: 80,
+              angle: 60,
+              spread: 80,
+              origin: { x: 0, y: 0.6 },
+            }),
+          200,
+        );
+        setTimeout(
+          () =>
+            confetti({
+              particleCount: 80,
+              angle: 120,
+              spread: 80,
+              origin: { x: 1, y: 0.6 },
+            }),
+          400,
+        );
+      }
+
       document.getElementById("amount").value = "";
       await loadDeposit();
     } catch (error) {
