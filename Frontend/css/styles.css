@@ -335,6 +335,64 @@ input.error {
   margin-top: 0.5rem;
 }
 
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.copy-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.copy-btn:hover {
+  background: #eef2ff;
+  transform: none;
+  box-shadow: none;
+}
+
+.copy-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.account-number-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.account-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.account-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: #1a3a5c;
+}
+
 .total-balance {
   background: linear-gradient(135deg, #1a3a5c, #0f2340);
   border-radius: 12px;
