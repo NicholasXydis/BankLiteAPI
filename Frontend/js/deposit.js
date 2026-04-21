@@ -10,7 +10,6 @@ async function loadDeposit() {
 
   try {
     accounts = await getAccounts(token);
-
     if (accounts.length === 0) {
       document.getElementById("empty-state").style.display = "block";
       document.querySelector(".form-card").style.display = "none";
@@ -74,6 +73,10 @@ document
       await deposit(token, accountId, amount);
       successMsg.textContent = `Successfully deposited $${amount.toFixed(2)}!`;
       successMsg.style.display = "block";
+
+      const balanceEl = document.getElementById("balance-display");
+      balanceEl.classList.add("flash-green");
+      setTimeout(() => balanceEl.classList.remove("flash-green"), 1000);
 
       const isFirstDeposit = !sessionStorage.getItem("hasDeposited");
       if (isFirstDeposit) {

@@ -67,12 +67,17 @@ document
 
     const btn = document.getElementById("withdraw-btn");
     btn.disabled = true;
-    btn.classList.add("btn-loading")
+    btn.classList.add("btn-loading");
 
     try {
       await withdraw(token, accountId, amount);
       successMsg.textContent = `Successfully withdrew $${amount.toFixed(2)}!`;
       successMsg.style.display = "block";
+
+      const balanceEl = document.getElementById("balance-display");
+      balanceEl.classList.add("flash-red");
+      setTimeout(() => balanceEl.classList.remove("flash-red"), 1000);
+
       document.getElementById("amount").value = "";
       await loadWithdraw();
     } catch (error) {
@@ -80,7 +85,7 @@ document
       errorMsg.style.display = "block";
     } finally {
       btn.disabled = false;
-      btn.classList.remove("btn-loading")
+      btn.classList.remove("btn-loading");
     }
   });
 loadWithdraw();

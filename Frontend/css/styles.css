@@ -309,6 +309,15 @@ input.error {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   margin-bottom: 1rem;
   animation: fadeInUp 0.3s ease both;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.account-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
 }
 
 .account-card:nth-child(2) {
@@ -617,5 +626,37 @@ input.error {
   }
   50% {
     opacity: 0;
+  }
+}
+
+.flash-green {
+  animation: flashGreen 1s ease;
+}
+
+.flash-red {
+  animation: flashRed 1s ease;
+}
+
+@keyframes flashGreen {
+  0% {
+    color: #0f2340;
+  }
+  50% {
+    color: #16a34a;
+  }
+  100% {
+    color: #0f2340;
+  }
+}
+
+@keyframes flashRed {
+  0% {
+    color: #0f2340;
+  }
+  50% {
+    color: #dc2626;
+  }
+  100% {
+    color: #0f2340;
   }
 }
