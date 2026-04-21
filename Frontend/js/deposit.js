@@ -12,12 +12,10 @@ async function loadDeposit() {
     accounts = await getAccounts(token);
 
     if (accounts.length === 0) {
-      document.getElementById("loading-msg").style.display = "none";
       document.getElementById("empty-state").style.display = "block";
       document.querySelector(".form-card").style.display = "none";
       return;
     }
-    document.getElementById("loading-msg").style.display = "none";
     document.querySelector(".form-card").style.display = "block";
 
     accountSelect.innerHTML = "";
@@ -70,7 +68,7 @@ document
 
     const btn = document.getElementById("deposit-btn");
     btn.disabled = true;
-    btn.textContent = "Depositing...";
+    btn.classList.add("btn-loading");
 
     try {
       await deposit(token, accountId, amount);
@@ -83,7 +81,7 @@ document
       errorMsg.style.display = "block";
     } finally {
       btn.disabled = false;
-      btn.textContent = "Deposit";
+      btn.classList.remove("btn-loading");
     }
   });
 loadDeposit();

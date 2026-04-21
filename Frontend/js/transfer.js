@@ -11,12 +11,10 @@ async function loadTransfer() {
   try {
     accounts = await getAccounts(token);
     if (accounts.length === 0) {
-      document.getElementById("loading-msg").style.display = "none";
       document.getElementById("empty-state").style.display = "block";
       document.querySelector(".form-card").style.display = "none";
       return;
     }
-    document.getElementById("loading-msg").style.display = "none";
     document.querySelector(".form-card").style.display = "block";
 
     accountSelect.innerHTML = "";
@@ -75,7 +73,7 @@ document
 
     const btn = document.getElementById("transfer-btn");
     btn.disabled = true;
-    btn.textContent = "Transferring...";
+    btn.classList.add("btn-loading");
 
     try {
       await transfer(token, accountId, toAccountId, amount);
@@ -88,7 +86,7 @@ document
       errorMsg.style.display = "block";
     } finally {
       btn.disabled = false;
-      btn.textContent = "Transfer";
+      btn.classList.remove("btn-loading");
     }
   });
 loadTransfer();

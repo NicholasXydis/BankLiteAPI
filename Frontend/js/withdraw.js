@@ -11,12 +11,10 @@ async function loadWithdraw() {
   try {
     accounts = await getAccounts(token);
     if (accounts.length === 0) {
-      document.getElementById("loading-msg").style.display = "none";
       document.getElementById("empty-state").style.display = "block";
       document.querySelector(".form-card").style.display = "none";
       return;
     }
-    document.getElementById("loading-msg").style.display = "none";
     document.querySelector(".form-card").style.display = "block";
 
     accountSelect.innerHTML = "";
@@ -69,7 +67,7 @@ document
 
     const btn = document.getElementById("withdraw-btn");
     btn.disabled = true;
-    btn.textContent = "Withdrawing...";
+    btn.classList.add("btn-loading")
 
     try {
       await withdraw(token, accountId, amount);
@@ -82,7 +80,7 @@ document
       errorMsg.style.display = "block";
     } finally {
       btn.disabled = false;
-      btn.textContent = "Withdraw";
+      btn.classList.remove("btn-loading")
     }
   });
 loadWithdraw();

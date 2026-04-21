@@ -1,13 +1,12 @@
 async function loadDashboard() {
   const token = requireAuth();
   if (!token) return;
-  const loadingMsg = document.getElementById("loading-msg");
+
   const errorMsg = document.getElementById("error-msg");
   const accountsContainer = document.getElementById("accounts-container");
 
   try {
     const accounts = await getAccounts(token);
-    loadingMsg.style.display = "none";
     accountsContainer.innerHTML = "";
 
     accounts.forEach((account) => {
@@ -80,7 +79,7 @@ document
     successMsg.style.display = "none";
 
     btn.disabled = true;
-    btn.textContent = "Creating...";
+    btn.classList.add("btn-loading");
 
     try {
       await createAccount(token, accountType);
@@ -92,7 +91,7 @@ document
       errorMsg.style.display = "block";
     } finally {
       btn.disabled = false;
-      btn.textContent = "Create Account";
+      btn.classList.remove("btn-loading");
     }
   });
 
