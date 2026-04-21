@@ -46,7 +46,7 @@
 
       <main class="dashboard-main">
         <h1 class="dashboard-title">My Accounts</h1>
-        <p id="loading-msg">Loading accounts...</p>
+        <div id="loading-msg" class="spinner"></div>
         <div
           id="error-msg"
           class="error-msg"
@@ -55,7 +55,11 @@
         ></div>
         <div id="accounts-container"></div>
 
-        <div class="form-card" id="create-account-section">
+        <div
+          class="form-card"
+          id="create-account-section"
+          style="display: none"
+        >
           <h2 class="section-title">Create Account</h2>
           <div
             id="create-error-msg"
