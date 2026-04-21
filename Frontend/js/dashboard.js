@@ -37,9 +37,16 @@ async function loadDashboard() {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1a3a5c" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         </button>
         </div>
-        <p>$${account.balance.toFixed(2)}</p>
+        <p class="account-balance-amount" data-balance="${account.balance}">$0.00</p>
       `;
       accountsContainer.appendChild(card);
+    });
+
+    let delay = 400;
+    document.querySelectorAll(".account-balance-amount").forEach((el) => {
+      const target = parseFloat(el.dataset.balance);
+      setTimeout(() => countUp(el, target, 1000), delay);
+      delay += 400;
     });
 
     const totalBalance = accounts.reduce(
@@ -50,10 +57,15 @@ async function loadDashboard() {
     totalEl.className = "total-balance";
     totalEl.innerHTML = `
         <p>Total Balance</p>
-        <h2>$${totalBalance.toFixed(2)}</h2>
+        <h2 id="total-balance-amount">$0.00</h2>
       `;
 
     accountsContainer.insertBefore(totalEl, accountsContainer.firstChild);
+    countUp(
+      document.getElementById("total-balance-amount"),
+      totalBalance,
+      1000,
+    );
 
     const hasChequing = accounts.some((a) => a.type === "Chequing");
     const hasSavings = accounts.some((a) => a.type === "Savings");
@@ -64,7 +76,6 @@ async function loadDashboard() {
       document.getElementById("create-account-section").style.display = "block";
     }
   } catch (error) {
-    loadingMsg.style.display = "none";
     errorMsg.textContent = error.message;
     errorMsg.style.display = "block";
   }
@@ -116,6 +127,20 @@ function typeText(elementId, text, speed = 120) {
       el.classList.remove("typing-cursor");
     }
   }, speed);
+}
+
+function countUp(element, target, duration = 1000) {
+  const start = 0;
+  const increment = target / (duration / 16);
+  let current = start;
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      current = target;
+      clearInterval(timer);
+    }
+    element.textContent = `$${current.toFixed(2)}`;
+  }, 16);
 }
 
 loadDashboard();
