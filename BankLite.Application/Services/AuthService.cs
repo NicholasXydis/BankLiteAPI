@@ -56,7 +56,8 @@ namespace BankLite.Application.Services
             return new AuthResponseDto
             {
                 Token = token,
-                UserId = user.Id
+                UserId = user.Id,
+                FullName = user.FullName
             };
         }
         public async Task<AuthResponseDto> LoginAsync(LoginUserDto dto)
@@ -87,7 +88,8 @@ namespace BankLite.Application.Services
             return new AuthResponseDto
             {
                 Token = token,
-                UserId = user.Id
+                UserId = user.Id,
+                FullName = user.FullName
             };
         }
 
