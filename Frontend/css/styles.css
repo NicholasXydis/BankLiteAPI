@@ -291,6 +291,8 @@ input.error {
   background: #f1f5f9;
   display: flex;
   flex-direction: column;
+  animation: fadeInUp 0.3s ease both;
+  animation-delay: 0.1s;
 }
 
 .dashboard-title {
@@ -312,6 +314,17 @@ input.error {
   width: 100%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   margin-bottom: 1rem;
+  animation: fadeInUp 0.3s ease both;
+}
+
+.account-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.account-card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.account-card:nth-child(4) {
+  animation-delay: 0.3s;
 }
 
 .account-card h2 {
@@ -430,6 +443,7 @@ input.error {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  animation: fadeInUp 0.5s ease both;
 }
 
 .form-group {
