@@ -16,7 +16,6 @@ async function loadTransactions(accountId, page) {
 
   try {
     const result = await getTransactions(token, accountId, page, pageSize);
-
     transactionsList.innerHTML = "";
 
     if (result.items.length === 0) {
@@ -25,6 +24,7 @@ async function loadTransactions(accountId, page) {
       pageInfo.textContent = "";
       prevBtn.disabled = true;
       nextBtn.disabled = true;
+      document.querySelector(".pagination").style.display = "flex";
       return;
     }
 
@@ -45,8 +45,10 @@ async function loadTransactions(accountId, page) {
     prevBtn.disabled = page <= 1;
     nextBtn.disabled = page >= totalPages;
     currentPage = page;
+    document.querySelector(".pagination").style.display = "flex";
   } catch (error) {
     transactionsList.innerHTML = "";
+    document.querySelector(".pagination").style.display = "flex";
     errorMsg.textContent = error.message;
     errorMsg.style.display = "block";
   }
@@ -66,6 +68,7 @@ async function loadAccounts() {
       return;
     }
     document.querySelector(".form-card").style.display = "block";
+    document.querySelector(".pagination").style.display = "none";
 
     accountSelect.innerHTML = "";
     accounts.forEach((account) => {
@@ -86,6 +89,7 @@ document
   .getElementById("account-select")
   .addEventListener("change", async function () {
     currentPage = 1;
+    document.querySelector(".pagination").style.display = "none";
     await loadTransactions(this.value, 1);
   });
 
