@@ -603,3 +603,19 @@ input.error {
   font-size: 1rem;
   margin-bottom: 1rem;
 }
+
+.typing-cursor::after {
+  content: "|";
+  animation: blink 0.7s step-end infinite;
+  color: #1a3a5c;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

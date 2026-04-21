@@ -103,7 +103,23 @@ document
     }
   });
 
+function typeText(elementId, text, speed = 120) {
+  const el = document.getElementById(elementId);
+  let i = 0;
+  el.textContent = "";
+  el.classList.add("typing-cursor");
+  const interval = setInterval(() => {
+    el.textContent += text[i];
+    i++;
+    if (i >= text.length) {
+      clearInterval(interval);
+      el.classList.remove("typing-cursor");
+    }
+  }, speed);
+}
+
 loadDashboard();
+typeText("dashboard-title", "My Accounts");
 
 document
   .getElementById("accounts-container")
