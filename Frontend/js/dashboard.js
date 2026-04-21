@@ -21,6 +21,19 @@ async function loadDashboard() {
       accountsContainer.appendChild(card);
     });
 
+    const totalBalance = accounts.reduce(
+      (sum, account) => sum + account.balance,
+      0,
+    );
+    const totalEl = document.createElement("div");
+    totalEl.className = "total-balance";
+    totalEl.innerHTML = `
+        <p>Total Balance</p>
+        <h2>$${totalBalance.toFixed(2)}</h2>
+      `;
+
+    accountsContainer.insertBefore(totalEl, accountsContainer.firstChild);
+
     const hasChequing = accounts.some((a) => a.type === "Chequing");
     const hasSavings = accounts.some((a) => a.type === "Savings");
 
