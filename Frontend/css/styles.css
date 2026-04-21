@@ -595,3 +595,11 @@ input.error {
   left: calc(50% - 9px);
   transform: none;
 }
+
+#welcome-msg {
+  text-align: left !important;
+  color: #1a3a5c;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}

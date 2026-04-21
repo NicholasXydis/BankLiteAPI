@@ -46,6 +46,7 @@ if (loginForm) {
     try {
       const data = await login(email, password);
       saveToken(data.token);
+      sessionStorage.setItem("fullName", data.fullName);
       window.location.href = "dashboard.html";
     } catch (error) {
       errorMsg.textContent = error.message;
@@ -87,6 +88,7 @@ if (registerForm) {
     try {
       const data = await register(fullName, email, password);
       saveToken(data.token);
+      sessionStorage.setItem("fullName", data.fullName);
       window.location.href = "dashboard.html";
     } catch (error) {
       errorMsg.textContent = error.message;

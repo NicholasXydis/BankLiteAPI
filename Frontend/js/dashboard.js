@@ -2,6 +2,14 @@ async function loadDashboard() {
   const token = requireAuth();
   if (!token) return;
 
+  const userName = sessionStorage.getItem("fullName");
+  if (userName) {
+    const firstName = userName.split(" ")[0];
+    document.getElementById("welcome-msg").textContent =
+      `Welcome back, ${firstName}!`;
+    document.getElementById("welcome-msg").style.display = "block";
+  }
+
   const errorMsg = document.getElementById("error-msg");
   const accountsContainer = document.getElementById("accounts-container");
 
