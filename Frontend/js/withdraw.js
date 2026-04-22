@@ -75,11 +75,13 @@ document
       successMsg.style.display = "block";
 
       const balanceEl = document.getElementById("balance-display");
+      const currentBalance = parseFloat(balanceEl.textContent.replace("$", ""));
+      const newBalance = currentBalance - amount;
+      balanceEl.textContent = `$${newBalance.toFixed(2)}`;
       balanceEl.classList.add("flash-red");
       setTimeout(() => balanceEl.classList.remove("flash-red"), 1000);
 
       document.getElementById("amount").value = "";
-      await loadWithdraw();
     } catch (error) {
       errorMsg.textContent = error.message;
       errorMsg.style.display = "block";
