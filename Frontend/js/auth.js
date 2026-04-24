@@ -34,13 +34,13 @@ if (loginForm) {
     const errorMsg = document.getElementById("error-msg");
     errorMsg.style.display = "none";
     button.disabled = true;
-    button.textContent = "Signing in...";
+    button.classList.add("btn-loading");
 
     if (!email || !password) {
       errorMsg.textContent = "Please enter both email and password.";
       errorMsg.style.display = "block";
       button.disabled = false;
-      button.textContent = "Sign in";
+      button.classList.remove("btn-loading");
       return;
     }
     try {
@@ -52,7 +52,7 @@ if (loginForm) {
       errorMsg.textContent = error.message;
       errorMsg.style.display = "block";
       button.disabled = false;
-      button.textContent = "Sign in";
+      button.classList.remove("btn-loading");
     }
   });
 }
@@ -69,20 +69,20 @@ if (registerForm) {
     const confirmPassword = document.getElementById("confirmPassword").value;
     errorMsg.style.display = "none";
     button.disabled = true;
-    button.textContent = "Registering...";
+    button.classList.add("btn-loading");
 
     if (!fullName || !email || !password || !confirmPassword) {
       errorMsg.textContent = "Please fill in all fields.";
       errorMsg.style.display = "block";
       button.disabled = false;
-      button.textContent = "Register";
+      button.classList.remove("btn-loading");
       return;
     }
     if (password !== confirmPassword) {
       errorMsg.textContent = "Passwords do not match.";
       errorMsg.style.display = "block";
       button.disabled = false;
-      button.textContent = "Register";
+      button.classList.remove("btn-loading");
       return;
     }
     try {
