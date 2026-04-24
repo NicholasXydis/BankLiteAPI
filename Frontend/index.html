@@ -10,6 +10,10 @@
     <meta name="robots" content="index, follow" />
     <title>BankLite — Login</title>
     <link rel="stylesheet" href="css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" href="xFavicon.ico" type="image/x-icon" />
   </head>
   <body class="auth-page">
@@ -36,7 +40,7 @@
           </svg>
         </div>
         <h1>BankLite</h1>
-        <p>Welcome back</p>
+        <p>Sign in to your account</p>
         <div
           id="error-msg"
           class="error-msg"
@@ -103,8 +107,36 @@
             required
             autocomplete="current-password"
           />
+
+          <button
+            type="button"
+            class="toggle-password"
+            id="toggle-password"
+            aria-label="Toggle password visibility"
+          >
+            <svg
+              id="eye-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#6b7280"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          </button>
         </div>
 
+        <div class="forgot-password">
+          <a href="#" class="link-accent" style="font-size: 0.8rem"
+            >Forgot password?</a
+          >
+        </div>
         <button type="submit" id="login-btn">Sign in</button>
         <p class="auth-footer">
           <span class="muted">Don't have an account?</span>
