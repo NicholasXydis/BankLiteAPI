@@ -623,7 +623,7 @@ input.error {
 
 .typing-cursor::after {
   content: "|";
-  animation: blink 0.7s step-end infinite;
+  animation: blink 0.75s step-end infinite;
   color: #1a3a5c;
 }
 
