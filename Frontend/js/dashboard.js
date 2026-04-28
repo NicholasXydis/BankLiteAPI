@@ -155,7 +155,7 @@ document
     const number = btn.dataset.number;
     navigator.clipboard.writeText(number).then(() => {
       const original = btn.innerHTML;
-      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
       btn.style.background = "#dcfce7";
       setTimeout(() => {
         btn.innerHTML = original;

@@ -57,10 +57,10 @@ form {
   border-radius: 16px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 
-  0 2px 4px rgba (0, 0, 0, 0.04),
-  0 4px 16px rgba(0, 0, 0, 0.08),
-  0 20px 60px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 2px 4px rgba (0, 0, 0, 0.04),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    0 20px 60px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -504,49 +504,65 @@ input.error {
 
 .transaction-row {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   padding: 0.875rem 0;
-  border-bottom: 1px solid #e5e7eb;
-  gap: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  gap: 0.25rem;
 }
 
 .transaction-row:last-child {
-  border-bottom: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1a3a5c;
+}
+
+.transaction-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .transaction-type {
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #1a3a5c;
-  min-width: 80px;
-}
-
-.transaction-desc {
-  flex: 1;
-  font-size: 0.875rem;
-  color: #6b7280;
 }
 
 .transaction-amount {
   font-weight: 700;
   font-size: 0.95rem;
   color: #0f2340;
+  white-space: nowrap;
 }
 
 .transaction-date {
   font-size: 0.8rem;
   color: #9ca3af;
-  min-width: 80px;
-  text-align: right;
+  text-align: left;
+}
+
+.transaction-row:hover {
+  background: #f8fafc;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .transaction-row.deposit .transaction-type {
-  color: #16a34a;
+  color: #1a3a5c;
 }
 
 .transaction-row.withdrawal .transaction-type {
-  color: #dc2626;
+  color: #1a3a5c;
+}
+
+.transaction-row.deposit .transaction-arrow,
+.transaction-row.deposit .transaction-amount {
+  color: #059669;
+}
+
+.transaction-row.withdrawal .transaction-arrow,
+.transaction-row.withdrawal .transaction-amount {
+  color: #dc3545;
 }
 
 .pagination {
@@ -650,7 +666,7 @@ input.error {
     color: #0f2340;
   }
   50% {
-    color: #16a34a;
+    color: #059669;
   }
   100% {
     color: #0f2340;
@@ -662,7 +678,7 @@ input.error {
     color: #0f2340;
   }
   50% {
-    color: #dc2626;
+    color: #dc3545;
   }
   100% {
     color: #0f2340;
